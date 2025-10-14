@@ -398,6 +398,18 @@ export default function App() {
   const [shuffledQuizData, setShuffledQuizData] = useState<typeof quizData>([]);
   const [startTime, setStartTime] = useState<Date | null>(null);
 
+  // === WhatsApp redirect config ===
+  const WHATSAPP_URL: string = "https://wa.me/554331910168?text=PRESENTES";
+
+  // Helper de redirecionamento (com fallback para escapar de iframe)
+  const redirectToWhatsApp = () => {
+    try {
+      (window.top ?? window).location.assign(WHATSAPP_URL);
+    } catch {
+      window.location.assign(WHATSAPP_URL);
+    }
+  };
+
   // Function to calculate estimated time remaining
   const getEstimatedTimeRemaining = () => {
     if (!startTime) return 10;
@@ -415,14 +427,12 @@ export default function App() {
     const options = [...question.options];
     const correctAnswer = question.correct;
     
-    // Create array of indices and shuffle them
     const indices = [0, 1, 2, 3];
     for (let i = indices.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [indices[i], indices[j]] = [indices[j], indices[i]];
     }
     
-    // Create new shuffled options array and find new correct index
     const shuffledOptions = indices.map(i => options[i]);
     const newCorrectIndex = indices.findIndex(i => i === correctAnswer);
     
@@ -452,6 +462,7 @@ export default function App() {
       </div>
     );
   }
+
   const handleAnswerSelect = (answerIndex: number) => {
     if (showResult) return; // Evita múltiplas seleções
     
@@ -475,6 +486,9 @@ export default function App() {
       setShowResult(false);
     } else {
       setQuizCompleted(true);
+      setTimeout(() => {
+        redirectToWhatsApp();
+      }, 10000);
     }
   };
 
@@ -482,8 +496,6 @@ export default function App() {
     setQuizStarted(true);
     setStartTime(new Date());
   };
-
-
 
   const getInterpretation = () => {
     const interpretation = interpretations.find(interp => score >= interp.min && score <= interp.max);
@@ -501,21 +513,20 @@ export default function App() {
           <div className="w-full max-w-md space-y-6 mx-4">
             {/* Header centralizado */}
             <div className="text-center space-y-4">
+            <img
+                  src={mentoriaImage}
+                  alt="Mentoria de Outubro - Psicossomática: O Terceiro Superpoder do Terapeuta TRG"
+                  className="w-full rounded-lg shadow-md max-h-64 object-cover"
+                />
               <div className="text-center">
-                <h1 className="text-base text-[#E40045] leading-tight">
-                  A Mentoria de Outubro<br />
-                  <span className="text-xl font-bold">PSICOSSOMÁTICA:</span><br />
-                  O <span className="font-bold">Terceiro Superpoder</span><br />
-                  do Terapeuta TRG
+                <h1 className="text-xl text-[#E40045] leading-tight">
+                  Teste seus conhecimentos em Psicossomática e ganhe um presente especial!
+                  
                 </h1>
               </div>
               
-              <p className="text-base text-gray-600">
-                Está chegando! Que tal testar seus conhecimentos no tema?
-              </p>
+        
             </div>
-            
-
             
             <div className="bg-gray-50 p-4 rounded-lg">
               <div className="flex items-center justify-center gap-2 text-gray-600 text-base">
@@ -544,6 +555,7 @@ export default function App() {
 
   if (quizCompleted) {
     const interpretation = getInterpretation();
+  
     return (
       <div className="min-h-screen flex flex-col bg-white">
         {/* Content */}
@@ -554,7 +566,7 @@ export default function App() {
               <h1 className="text-base text-[#E40045] font-bold">Terceiro Superpoder Testado!</h1>
               <p className="text-sm text-gray-600">Veja seu resultado</p>
             </div>
-
+  
             {/* Score Display - Compacto */}
             <div className="text-center">
               <div className="bg-[#E40045] text-white rounded-xl p-4 shadow-lg">
@@ -565,7 +577,7 @@ export default function App() {
                 </div>
                 <p className="text-base">Acertos de {shuffledQuizData.length} questões</p>
                 <div className="mt-2 bg-white/20 rounded-full h-1.5">
-                  <div 
+                  <div
                     className="bg-yellow-300 h-1.5 rounded-full transition-all duration-500"
                     style={{ width: `${(score / shuffledQuizData.length) * 100}%` }}
                   />
@@ -575,7 +587,7 @@ export default function App() {
                 </p>
               </div>
             </div>
-            
+  
             {interpretation && (
               <div className="text-center">
                 <div className="text-lg text-[#E40045] font-bold mb-2">
@@ -586,17 +598,17 @@ export default function App() {
                 </p>
               </div>
             )}
-
+  
             {/* Cartaz da Mentoria - Compacto */}
             <div className="space-y-3">
               <div className="text-center">
-                <img 
+                <img
                   src={mentoriaImage}
-                  alt="Mentoria de Outubro - Psicossomática: O Terceiro Superpoder do Terapeuta TRG" 
+                  alt="Mentoria de Outubro - Psicossomática: O Terceiro Superpoder do Terapeuta TRG"
                   className="w-full rounded-lg shadow-md max-h-64 object-cover"
                 />
               </div>
-
+  
               <div className="text-center space-y-2">
                 <div className="flex items-center justify-center gap-3 text-sm text-gray-500">
                   <div className="flex items-center gap-1">
@@ -608,14 +620,20 @@ export default function App() {
                     <span>Exclusivo TRG</span>
                   </div>
                 </div>
-                <a href="https://sndflw.com/i/dDuKbwIDoUo1pWwyB9Tk" target="_blank" rel="noopener noreferrer" className="block">
-                  <Button 
+  
+                {/* Botão (fallback) + aviso de redirecionamento */}
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="block">
+                  <Button
                     className="w-full bg-[#25D366] hover:bg-[#25D366]/90 text-white shadow-lg"
                     size="lg"
                   >
-                    Entrar no Grupo da Mentoria
+                    RECEBER MEU PRESENTE!
                   </Button>
                 </a>
+  
+                <p className="text-base text-gray-500 mt-1">
+                  Você será redirecionado para o grupo da mentoria em instantes...
+                </p>
               </div>
             </div>
           </div>
@@ -623,6 +641,7 @@ export default function App() {
       </div>
     );
   }
+  
 
   const currentQ = shuffledQuizData[currentQuestion];
   
@@ -807,8 +826,6 @@ export default function App() {
             )}
           </div>
         )}
-
-
       </div>
     </div>
   );
