@@ -3,9 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './com
 import { Button } from './components/ui/button';
 import { Progress } from './components/ui/progress';
 import { Badge } from './components/ui/badge';
-import { CheckCircle2, XCircle, RotateCcw, Brain, Clock, Calendar, Users, Star, Target, Zap, Trophy, Award } from 'lucide-react';
+import { CheckCircle2, XCircle, RotateCcw, Clock, Calendar, Users, Star, Zap, Trophy, Award } from 'lucide-react';
 import { ImageWithFallback } from './components/figma/ImageWithFallback';
 import mentoriaImage from 'figma:asset/e26c8fa552a31e7d782dac058cc2ea181098fba3.png';
+import logoImage from './assets/logo-psicossomatica.webp';
 
 const quizData = [
   {
@@ -651,8 +652,12 @@ export default function App() {
       <div className="flex-shrink-0 bg-white border-b border-gray-200 py-3 px-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <div className="h-7 w-7 bg-[#E40045] rounded-full flex items-center justify-center">
-              <Brain className="h-4 w-4 text-white" />
+            <div className="flex items-center justify-center">
+              <img 
+                src={logoImage} 
+                alt="Logo Psicossomática" 
+                className="h-8 w-8 object-contain"
+              />
             </div>
             <div>
               <span className="text-base text-[#E40045] font-bold">
@@ -688,20 +693,13 @@ export default function App() {
           </div>
           <div className="flex-1">
             <h2 className="text-base leading-tight font-medium">{currentQ.question}</h2>
-            {/* Indicador de progresso motivacional */}
-            <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-              <Target className="h-3 w-3" />
-              <span>
-                {Math.round((currentQuestion / shuffledQuizData.length) * 100)}% concluído • {shuffledQuizData.length - currentQuestion - 1} restantes
-              </span>
-            </div>
           </div>
         </div>
       </div>
       
       {/* Content */}
-      <div className="flex-1 px-6 py-4 space-y-3 overflow-y-auto" style={{ paddingTop: '10vh' }}>
-        <div className="grid gap-2">
+      <div className="flex-1 px-6 py-3 space-y-2 overflow-y-auto">
+        <div className="grid gap-1.5">
           {currentQ.options.map((option, index) => {
             const isSelected = selectedAnswer === index;
             const isCorrectOption = index === currentQ.correct;
@@ -711,16 +709,16 @@ export default function App() {
               <Button
                 key={index}
                 variant="outline"
-                className={`text-left h-auto p-2.5 justify-start transition-all duration-300 text-base ${
+                className={`text-left h-auto p-2 justify-start transition-all duration-300 text-base ${
                   !showResult && isSelected
-                    ? "border-[#E40045] bg-gray-50 shadow-lg"
+                    ? "border-[#E40045] bg-gray-50 shadow-xl"
                     : showResult && isCorrectOption
-                    ? "bg-green-600 text-white hover:bg-green-700 border-green-600 shadow-lg"
+                    ? "bg-green-600 text-white hover:bg-green-700 border-green-600 shadow-xl"
                     : showResult && isWrongSelected
-                    ? "bg-red-600 text-white hover:bg-red-700 border-red-600 shadow-lg"
+                    ? "bg-red-600 text-white hover:bg-red-700 border-red-600 shadow-xl"
                     : showResult
-                    ? "opacity-40 border-gray-200"
-                    : "hover:border-[#E40045]/50 hover:bg-gray-50 border-gray-200"
+                    ? "opacity-40 border-gray-200 shadow-sm"
+                    : "hover:border-[#E40045]/50 hover:bg-gray-50 border-gray-200 shadow-md hover:shadow-lg"
                 }`}
                 onClick={() => handleAnswerSelect(index)}
                 disabled={showResult}
@@ -741,7 +739,7 @@ export default function App() {
         </div>
 
         {showResult && (
-          <div className={`mt-2 p-2 rounded-lg border transition-all duration-500 ${
+          <div className={`mt-1 p-2 rounded-lg border transition-all duration-500 ${
             isCorrect 
               ? "bg-green-50 border-green-200" 
               : "bg-red-50 border-red-200"
@@ -769,7 +767,7 @@ export default function App() {
                 <strong className="text-[#E40045]">Condição:</strong> {currentQ.explanation}
               </p>
               {!isCorrect && (
-                <p className="text-base mt-1 text-gray-600">
+                <p className="text-base mt-2 text-gray-600">
                   <strong>Resposta correta:</strong> {String.fromCharCode(65 + currentQ.correct)}) {currentQ.options[currentQ.correct]}
                 </p>
               )}
@@ -791,7 +789,7 @@ export default function App() {
             {currentQuestion < shuffledQuizData.length - 1 ? (
               <Button 
                 onClick={handleNext} 
-                className="w-full bg-[#E40045] hover:bg-[#E40045]/90 shadow-lg"
+                className="w-full bg-[#E40045] hover:bg-[#E40045]/90 shadow-lg text-lg"
                 size="lg"
               >
                 Próxima Pergunta
@@ -799,7 +797,7 @@ export default function App() {
             ) : (
               <Button 
                 onClick={handleNext} 
-                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-xl transform hover:scale-105 transition-all duration-300 border-2 border-green-500"
+                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-xl transform hover:scale-105 transition-all duration-300 border-2 border-green-500 text-lg"
                 size="lg"
               >
                 <Trophy className="w-5 h-5 mr-2" />
