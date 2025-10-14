@@ -496,8 +496,8 @@ export default function App() {
     return (
       <div className="min-h-screen flex flex-col bg-white">
         {/* Content */}
-        <div className="flex-1 flex flex-col justify-center items-center px-4 py-8">
-          <div className="w-full max-w-md space-y-6">
+        <div className="flex-1 flex flex-col justify-center items-center px-6 py-8">
+          <div className="w-full max-w-md space-y-6 mx-4">
             {/* Header centralizado */}
             <div className="text-center space-y-4">
               <div className="text-center">
@@ -546,8 +546,8 @@ export default function App() {
     return (
       <div className="min-h-screen flex flex-col bg-white">
         {/* Content */}
-        <div className="flex-1 flex flex-col justify-center items-center px-4 py-4">
-          <div className="w-full max-w-md space-y-4">
+        <div className="flex-1 flex flex-col justify-center items-center px-6 py-4">
+          <div className="w-full max-w-md space-y-4 mx-4">
             {/* Header compacto */}
             <div className="text-center">
               <h1 className="text-base text-[#E40045] font-bold">Terceiro Superpoder Testado!</h1>
@@ -648,7 +648,7 @@ export default function App() {
   return (
     <div className="h-screen flex flex-col bg-white overflow-hidden">
       {/* Header */}
-      <div className="flex-shrink-0 bg-white border-b border-gray-200 py-3 px-4">
+      <div className="flex-shrink-0 bg-white border-b border-gray-200 py-3 px-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <div className="h-7 w-7 bg-[#E40045] rounded-full flex items-center justify-center">
@@ -681,7 +681,7 @@ export default function App() {
       </div>
 
       {/* Question */}
-      <div className="flex-shrink-0 px-4 py-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+      <div className="flex-shrink-0 px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
         <div className="flex items-start gap-3">
           <div className="bg-[#E40045] text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1">
             <span className="text-base font-bold">{currentQuestion + 1}</span>
@@ -700,7 +700,7 @@ export default function App() {
       </div>
       
       {/* Content */}
-      <div className="flex-1 px-4 py-4 space-y-3 overflow-y-auto" style={{ paddingTop: '10vh' }}>
+      <div className="flex-1 px-6 py-4 space-y-3 overflow-y-auto" style={{ paddingTop: '10vh' }}>
         <div className="grid gap-2">
           {currentQ.options.map((option, index) => {
             const isSelected = selectedAnswer === index;
